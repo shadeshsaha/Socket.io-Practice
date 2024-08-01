@@ -31,7 +31,7 @@ Currently, two official plugins are available:
 3. Run the CLI
 
    - npx shadcn-ui@latest init
-     ![] (src/assests/Env-Setup.gif)
+   - ![](src/assests/Env-Setup.png)
 
 4. You can now start adding components to your project.
 
