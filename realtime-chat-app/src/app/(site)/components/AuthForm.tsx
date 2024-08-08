@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@/app/components/Button";
-import Input from "@/app/components/inputs/input";
+import Input from "@/app/components/inputs/Input";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { BsGithub, BsGoogle } from "react-icons/bs";
@@ -45,12 +45,12 @@ const AuthForm = () => {
     if (variant === "LOGIN") {
       // NextAuth SignIn
     }
+  };
 
-    const socialAction = (action: string) => {
-      setIsLoading(true);
+  const socialAction = (action: string) => {
+    setIsLoading(true);
 
-      // NextAuth Social SignIn
-    };
+    // NextAuth Social SignIn
   };
 
   return (
