@@ -1,8 +1,10 @@
 "use client";
 
 import axios from "axios";
+import { signIn } from "next-auth/react";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 import Button from "../../components/Button";
 import Input from "../../components/inputs/Input";
@@ -39,12 +41,35 @@ const AuthForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
 
+    // Register
     if (variant === "REGISTER") {
-      axios.post("/api/register", data); // data consists of name, email, password
+      // data consists of name, email, password
+      axios
+        .post("/api/register", data)
+        .catch(() => toast.error("Something went wrong"))
+        .finally(() => setIsLoading(false));
     }
 
+    // Login
     if (variant === "LOGIN") {
       // NextAuth SignIn
+      signIn("credentials", {
+        ...data,
+        redirect: false,
+      })
+        .then((callBack) => {
+          console.log("callBack: ", callBack);
+          if (callBack?.error) {
+            toast.error("Invalid credentials");
+          }
+
+          if (callBack?.ok && !callBack?.error) {
+            toast.success("Logged In Successfully!");
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
   };
 
@@ -52,6 +77,20 @@ const AuthForm = () => {
     setIsLoading(true);
 
     // NextAuth Social SignIn
+    signIn(action, { redirect: false })
+      .then((callBack) => {
+        console.log("callBack: ", callBack);
+        if (callBack?.error) {
+          toast.error("Invalid credentials");
+        }
+
+        if (callBack?.ok && !callBack?.error) {
+          toast.success("Logged In Successfully!");
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
