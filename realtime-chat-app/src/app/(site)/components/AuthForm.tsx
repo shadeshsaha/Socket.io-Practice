@@ -1,8 +1,9 @@
 "use client";
 
 import axios from "axios";
-import { signIn } from "next-auth/react";
-import { useCallback, useState } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BsGithub, BsGoogle } from "react-icons/bs";
@@ -13,8 +14,17 @@ import AuthSocialButton from "./AuthSocialButton";
 type Variant = "LOGIN" | "REGISTER";
 
 const AuthForm = () => {
+  const session = useSession();
+  const router = useRouter();
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      console.log("Authenticated");
+      router.push("/users");
+    }
+  }, [session?.status, router]);
 
   // Toggle Function for Login/Register
   // using a callback function so we can memorize this function
@@ -46,6 +56,7 @@ const AuthForm = () => {
       // data consists of name, email, password
       axios
         .post("/api/register", data)
+        .then(() => signIn("credentials", data)) // immediately signin once register
         .catch(() => toast.error("Something went wrong"))
         .finally(() => setIsLoading(false));
     }
@@ -65,6 +76,7 @@ const AuthForm = () => {
 
           if (callBack?.ok && !callBack?.error) {
             toast.success("Logged In Successfully!");
+            router.push("/users");
           }
         })
         .finally(() => {
