@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { MdOutlineGroupAdd } from "react-icons/md";
+import ConversationBox from "./ConversationBox";
 
 interface ConversationListProps {
   // Will update these items in real time using "Pusher", which users "Sockets" underneath.
@@ -63,6 +64,14 @@ const ConversationList: React.FC<ConversationListProps> = ({
             <MdOutlineGroupAdd size={20} />
           </div>
         </div>
+
+        {items.map((item) => (
+          <ConversationBox
+            key={item.id}
+            data={item}
+            selected={conversationId === item.id}
+          />
+        ))}
       </div>
     </aside>
   );
