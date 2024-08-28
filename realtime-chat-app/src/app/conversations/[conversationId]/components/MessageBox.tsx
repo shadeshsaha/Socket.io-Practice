@@ -3,6 +3,7 @@
 import Avatar from "@/app/components/Avatar";
 import { FullMessageType } from "@/app/types";
 import clsx from "clsx";
+import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 
 interface MessageBoxProps {
@@ -51,6 +52,11 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
       <div className={body}>
         <div className="flex items-center gap-1">
           <div className="text-sm text-gray-500">{data.sender.name}</div>
+        </div>
+
+        <div className="text-xs text-gray-400">
+          {/* format is the created at of this message */}
+          {format(new Date(data.createdAt), "p")}
         </div>
       </div>
     </div>
