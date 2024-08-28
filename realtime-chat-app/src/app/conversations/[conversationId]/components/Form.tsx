@@ -2,6 +2,7 @@
 
 import useConversation from "@/app/hooks/useConversation";
 import axios from "axios";
+import { CldUploadButton } from "next-cloudinary";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { HiPaperAirplane, HiPhoto } from "react-icons/hi2";
 import MessageInput from "./MessageInput";
@@ -29,6 +30,23 @@ const Form = () => {
     });
   };
 
+  const handleUpload = (result: any, widget: any) => {
+    // if (result.event === "success") {
+    //   axios.post("/api/messages", {
+    //     image: result.info.secure_url,
+    //     conversationId: conversationId,
+    //   });
+    // }
+
+    axios.post("/api/messages", {
+      image: result?.info?.secure_url,
+      conversationId: conversationId,
+    });
+    widget.close({
+      quiet: true,
+    });
+  };
+
   return (
     <div
       className="
@@ -43,7 +61,14 @@ const Form = () => {
             w-full
         "
     >
-      <HiPhoto size={30} className="text-sky-500" />
+      <CldUploadButton
+        options={{ maxFiles: 1 }}
+        onSuccess={handleUpload}
+        uploadPreset="oahray6j"
+        // uploadPreset={process.env.CLOUDINARY_UPLOAD_PRESET}
+      >
+        <HiPhoto size={30} className="text-sky-500" />
+      </CldUploadButton>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="

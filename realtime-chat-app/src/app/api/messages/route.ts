@@ -63,6 +63,8 @@ export async function POST(request: Request) {
       },
     });
 
+    console.log("img: ", newMessage);
+
     return NextResponse.json(newMessage);
   } catch (error: any) {
     console.log("Error Messages: ", error);
