@@ -5,6 +5,7 @@ import { FullMessageType } from "@/app/types";
 import clsx from "clsx";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 interface MessageBoxProps {
   data: FullMessageType;
@@ -52,11 +53,32 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
       <div className={body}>
         <div className="flex items-center gap-1">
           <div className="text-sm text-gray-500">{data.sender.name}</div>
+
+          <div className="text-xs text-gray-400">
+            {/* format is the created at of this message */}
+            {format(new Date(data.createdAt), "p")}
+          </div>
         </div>
 
-        <div className="text-xs text-gray-400">
-          {/* format is the created at of this message */}
-          {format(new Date(data.createdAt), "p")}
+        <div className={message}>
+          {/* render an image on chat/message */}
+          {data.image ? (
+            <Image
+              alt="Image"
+              height="288"
+              width="288"
+              src={data.image}
+              className="
+                object-cover
+                cursor-pointer
+                hover:scale-110
+                transition
+                translate
+              "
+            />
+          ) : (
+            <div>{data.body}</div>
+          )}
         </div>
       </div>
     </div>
