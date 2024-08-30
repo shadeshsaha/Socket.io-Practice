@@ -2,7 +2,8 @@
 
 import useConversation from "@/app/hooks/useConversation";
 import { FullMessageType } from "@/app/types";
-import { useRef, useState } from "react";
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
 import MessageBox from "./MessageBox";
 
 interface BodyProps {
@@ -15,6 +16,11 @@ const Body: React.FC<BodyProps> = ({ initialMessages }) => {
   // Creating bottom wrath: when we get new message, it scroll down if user is all way up or a lot messages have come
   const bottomRef = useRef<HTMLDivElement>(null);
   const { conversationId } = useConversation();
+
+  useEffect(() => {
+    // When we open this body component or this exact page loads, we'll send a post route to seen the last message.
+    axios.post(`/api/conversation/${conversationId}/seen`);
+  }, [conversationId]);
 
   return (
     <div className="flex-1 overflow-y-auto">
