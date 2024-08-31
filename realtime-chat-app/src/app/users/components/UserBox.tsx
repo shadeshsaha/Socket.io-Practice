@@ -19,9 +19,7 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
 
     // Initialize the axios postcode to a route which we do not have at the moment, it's going to be "api/conversations" and in the body element we are going to send the user ID that we are starting the conversation with.
     axios
-      .post("/api/conversations", {
-        userId: data.id,
-      })
+      .post("/api/conversations", { userId: data.id })
       .then((data) => {
         router.push(`/conversations/${data.data.id}`);
       })

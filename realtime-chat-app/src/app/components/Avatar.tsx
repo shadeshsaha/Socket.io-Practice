@@ -23,9 +23,10 @@ const Avatar: React.FC<AvatarProps> = ({ user }) => {
             "
       >
         <Image
+          fill
           alt="Avatar"
           src={user?.image || "/images/placeholder.jpg"}
-          fill
+          // src={user?.image || "../../../../public/images/placeholder.jpg"}
         />
       </div>
 

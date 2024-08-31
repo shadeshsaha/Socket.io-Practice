@@ -19,7 +19,7 @@ const Body: React.FC<BodyProps> = ({ initialMessages }) => {
 
   useEffect(() => {
     // When we open this body component or this exact page loads, we'll send a post route to seen the last message.
-    axios.post(`/api/conversation/${conversationId}/seen`);
+    axios.post(`/api/conversations/${conversationId}/seen`);
   }, [conversationId]);
 
   return (

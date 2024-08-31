@@ -52,7 +52,7 @@ const DesktopSidebar: React.FC<DesktopSidebarProps> = ({ currentUser }) => {
                     space-y-1
                 "
         >
-          {routes.map((route) => (
+          {/* {routes.map((route) => (
             <DesktopItem
               key={route.label}
               href={route.href}
@@ -60,6 +60,16 @@ const DesktopSidebar: React.FC<DesktopSidebarProps> = ({ currentUser }) => {
               icon={route.icon}
               active={route.active}
               onClick={route.onClick}
+            />
+          ))} */}
+          {routes.map((item) => (
+            <DesktopItem
+              key={item.label}
+              href={item.href}
+              label={item.label}
+              icon={item.icon}
+              active={item.active}
+              onClick={item.onClick}
             />
           ))}
         </ul>
