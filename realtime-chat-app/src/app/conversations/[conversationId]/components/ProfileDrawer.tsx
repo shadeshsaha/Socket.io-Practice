@@ -1,5 +1,6 @@
 "use client";
 
+import Avatar from "@/app/components/Avatar";
 import useOtherUser from "@/app/hooks/useOtherUser";
 import {
   Dialog,
@@ -10,7 +11,7 @@ import {
 import { Conversation, User } from "@prisma/client";
 import { format } from "date-fns";
 import { Fragment, useMemo } from "react";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoTrash } from "react-icons/io5";
 
 interface ProfileDrawerProps {
   isOpen: boolean;
@@ -153,6 +154,146 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                             <span className="sr-only">Close Panel</span>
                             <IoClose size={24} />
                           </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      className="
+                            relative mt-6
+                            flex-1 px-4
+                            sm:px-6
+                        "
+                    >
+                      <div className="flex flex-col items-center">
+                        <div className="mb-2">
+                          <Avatar user={otherUser} />
+                        </div>
+
+                        <div>{title}</div>
+
+                        <div className="text-sm text-gray-500">
+                          {statusText}
+                        </div>
+
+                        <div className="flex gap-10 my-8">
+                          {/* Button to delete conversation */}
+                          <div
+                            onClick={() => {}}
+                            className="
+                                    flex
+                                    flex-col
+                                    gap-3
+                                    items-center
+                                    cursor-pointer
+                                    hover:opacity-75
+                                "
+                          >
+                            {/* icon */}
+                            <div
+                              className="
+                                        w-10
+                                        h-10
+                                        bg-neutral-100
+                                        rounded-full
+                                        flex
+                                        items-center
+                                        justify-center
+                                    "
+                            >
+                              <IoTrash size={20} />
+                            </div>
+                            {/* text */}
+                            <div
+                              className="
+                                        text-sm
+                                        font-light
+                                        text-neutral-600
+                                    "
+                            >
+                              Delete
+                            </div>
+                          </div>
+                        </div>
+
+                        <div
+                          className="
+                                w-full
+                                pb-5
+                                pt-5
+                                sm:px-0
+                                sm:pt-0
+                            "
+                        >
+                          {/* description list */}
+                          <dl
+                            className="
+                                    space-y-8
+                                    px-4
+                                    sm:space-y-6
+                                    sm:px-6
+                                "
+                          >
+                            {/* this only going to display this if we are not in a group chat */}
+                            {!data.isGroup && (
+                              <div>
+                                <dt
+                                  className="
+                                                text-sm
+                                                font-medium
+                                                text-gray-500
+                                                sm:w-40
+                                                sm:flex-shrink-0
+                                            "
+                                >
+                                  Email
+                                </dt>
+
+                                {/* dd - used to describe a term/name in a description list */}
+                                <dd
+                                  className="
+                                                mt-1
+                                                text-sm
+                                                text-gray-900
+                                                sm:col-span-2
+                                            "
+                                >
+                                  {otherUser.email}
+                                </dd>
+                              </div>
+                            )}
+
+                            {!data.isGroup && (
+                              <>
+                                <hr />
+                                <div>
+                                  <dt
+                                    className="
+                                                    text-sm
+                                                    font-medium
+                                                    text-gray-500
+                                                    sm:w-40
+                                                    sm:flex-shrink-0
+                                                "
+                                  >
+                                    Joined
+                                  </dt>
+                                  <dd
+                                    className="
+                                                    mt-1
+                                                    text-sm
+                                                    text-gray-900
+                                                    sm:col-span-2
+                                                "
+                                  >
+                                    <time dateTime={joinedDate}>
+                                      {joinedDate}
+                                    </time>
+                                  </dd>
+                                </div>
+                              </>
+                            )}
+                          </dl>
                         </div>
                       </div>
                     </div>
