@@ -1,7 +1,9 @@
 "use client";
 
+import Button from "@/app/components/Button";
 import Modal from "@/app/components/Modal";
 import useConversation from "@/app/hooks/useConversation";
+import { DialogTitle } from "@headlessui/react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
@@ -53,6 +55,54 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ isOpen, onClose }) => {
         >
           <FiAlertTriangle className="h-6 w-6 text-red-600" />
         </div>
+
+        <div
+          className="
+            mt-3
+            text-center
+            sm:ml-4
+            sm:mt-0
+            sm:text-left
+          "
+        >
+          <DialogTitle
+            as="h3"
+            className="
+              text-base
+              font-semibold
+              leading-6
+              text-gray-900
+            "
+          >
+            Delete Conversation!
+          </DialogTitle>
+
+          <div className="mt-2">
+            <p className="text-sm text-gray-500">
+              Are you sure you want to delete this conversation? This action
+              cannot be undone.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="
+          mt-5
+          sm:mt-4
+          sm:flex
+          sm:flex-row-reverse
+        "
+      >
+        {/* Delete Button */}
+        <Button disabled={isLoading} danger onClick={onDelete}>
+          Delete
+        </Button>
+
+        {/* Cancel Button */}
+        <Button disabled={isLoading} secondary onClick={onClose}>
+          Cancel
+        </Button>
       </div>
     </Modal>
   );
