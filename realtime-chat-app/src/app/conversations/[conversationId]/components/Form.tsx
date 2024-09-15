@@ -50,16 +50,16 @@ const Form = () => {
   return (
     <div
       className="
-            py-4
-            px-4
-            bg-white
-            border-t
-            flex
-            items-center
-            gap-2
-            lg:gap-4
-            w-full
-        "
+        py-4
+        px-4
+      bg-white
+        border-t
+        flex
+        items-center
+        gap-2
+        lg:gap-4
+        w-full
+      "
     >
       <CldUploadButton
         options={{ maxFiles: 1 }}
@@ -72,12 +72,12 @@ const Form = () => {
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="
-                flex
-                items-center
-                gap-2
-                lg:gap-4
-                w-full
-            "
+          flex
+          items-center
+          gap-2
+          lg:gap-4
+          w-full
+        "
       >
         <MessageInput
           id="message"
@@ -90,13 +90,13 @@ const Form = () => {
         <button
           type="submit"
           className="
-                rounded-full
-                p-2
-                bg-sky-500
-                cursor-pointer
-                hover:bg-sky-600
-                transition
-            "
+            rounded-full
+            p-2
+          bg-sky-500
+            cursor-pointer
+          hover:bg-sky-600
+            transition
+          "
         >
           <HiPaperAirplane size={18} className="text-white" />
         </button>

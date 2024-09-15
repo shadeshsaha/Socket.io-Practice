@@ -1,6 +1,7 @@
 "use client";
 
 import Avatar from "@/app/components/Avatar";
+import AvatarGroup from "@/app/components/AvatarGroup";
 import useOtherUser from "@/app/hooks/useOtherUser";
 import {
   Dialog,
@@ -72,34 +73,34 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                 inset-0
               bg-black
                 bg-opacity-40
-            "
+              "
             />
           </TransitionChild>
 
           <div
             className="
-                fixed
-                inset-0
-                overflow-hidden
+              fixed
+              inset-0
+              overflow-hidden
             "
           >
             <div
               className="
-                    absolute
-                    inset-0
-                    overflow-hidden
-                "
+                absolute
+                inset-0
+                overflow-hidden
+              "
             >
               <div
                 className="
-                        pointer-events-none
-                        fixed
-                        inset-y-0
-                        right-0
-                        flex
-                        max-w-full
-                        pl-10
-                    "
+                  pointer-events-none
+                  fixed
+                  inset-y-0
+                  right-0
+                  flex
+                  max-w-full
+                  pl-10
+                "
               >
                 <TransitionChild
                   as={Fragment}
@@ -112,51 +113,51 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                 >
                   <DialogPanel
                     className="
-                                pointer-events-auto
-                                w-screen
-                                max-w-md
-                            "
+                      pointer-events-auto
+                      w-screen
+                      max-w-md
+                    "
                   >
                     <div
                       className="
-                                    flex
-                                    h-full
-                                    flex-col
-                                    overflow-y-scroll
-                                    bg-white
-                                    py-6
-                                    shadow-xl
-                                "
+                        flex
+                        h-full
+                        flex-col
+                        overflow-y-scroll
+                      bg-white
+                        py-6
+                        shadow-xl
+                      "
                     >
                       <div className="px-4 sm:px-6">
                         <div
                           className="
-                                            flex
-                                            items-start
-                                            justify-end
-                                        "
+                            flex
+                            items-start
+                            justify-end
+                          "
                         >
                           <div
                             className="
-                                                ml-3
-                                                flex
-                                                h-7
-                                                items-center
-                                            "
+                              ml-3
+                              flex
+                              h-7
+                              items-center
+                            "
                           >
                             <button
                               onClick={onClose}
                               type="button"
                               className="
-                                                    rounded-md
-                                                    bg-white
-                                                    text-gray-400
-                                                    hover:text-gray-500
-                                                    focus:outline-none
-                                                    focus:ring-2
-                                                    focus:ring-sky-500
-                                                    focus:ring-offset-2
-                                                "
+                                rounded-md
+                              bg-white
+                              text-gray-400
+                              hover:text-gray-500
+                                focus:outline-none
+                                focus:ring-2
+                              focus:ring-sky-500
+                                focus:ring-offset-2
+                              "
                             >
                               <span className="sr-only">Close Panel</span>
                               <IoClose size={24} />
@@ -167,14 +168,20 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 
                       <div
                         className="
-                            relative mt-6
-                            flex-1 px-4
-                            sm:px-6
+                          relative mt-6
+                          flex-1 px-4
+                          sm:px-6
                         "
                       >
                         <div className="flex flex-col items-center">
                           <div className="mb-2">
-                            <Avatar user={otherUser} />
+                            {data.isGroup ? (
+                              // for group
+                              <AvatarGroup users={data.users} />
+                            ) : (
+                              // for single user
+                              <Avatar user={otherUser} />
+                            )}
                           </div>
 
                           <div>{title}</div>
@@ -188,35 +195,35 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                             <div
                               onClick={() => setConfirmOpen(true)}
                               className="
-                                    flex
-                                    flex-col
-                                    gap-3
-                                    items-center
-                                    cursor-pointer
-                                    hover:opacity-75
-                                "
+                                flex
+                                flex-col
+                                gap-3
+                                items-center
+                                cursor-pointer
+                                hover:opacity-75
+                              "
                             >
                               {/* icon */}
                               <div
                                 className="
-                                        w-10
-                                        h-10
-                                        bg-neutral-100
-                                        rounded-full
-                                        flex
-                                        items-center
-                                        justify-center
-                                    "
+                                  w-10
+                                  h-10
+                                bg-neutral-100
+                                  rounded-full
+                                  flex
+                                  items-center
+                                  justify-center
+                                "
                               >
                                 <IoTrash size={20} />
                               </div>
                               {/* text */}
                               <div
                                 className="
-                                        text-sm
-                                        font-light
-                                        text-neutral-600
-                                    "
+                                  text-sm
+                                  font-light
+                                text-neutral-600
+                                "
                               >
                                 Delete
                               </div>
@@ -225,33 +232,62 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 
                           <div
                             className="
-                                w-full
-                                pb-5
-                                pt-5
-                                sm:px-0
-                                sm:pt-0
+                              w-full
+                              pb-5
+                              pt-5
+                              sm:px-0
+                              sm:pt-0
                             "
                           >
                             {/* description list */}
                             <dl
                               className="
-                                    space-y-8
-                                    px-4
-                                    sm:space-y-6
-                                    sm:px-6
-                                "
+                                space-y-8
+                                px-4
+                                sm:space-y-6
+                                sm:px-6
+                            "
                             >
+                              {data.isGroup && (
+                                <div>
+                                  <dt
+                                    className="
+                                      text-sm
+                                      font-medium
+                                      text-gray-500
+                                      sm:w-40
+                                      sm:flex-shrink-0
+                                    "
+                                  >
+                                    Emails
+                                  </dt>
+
+                                  <dd
+                                    className="
+                                      mt-1
+                                      text-sm
+                                      text-gray-900
+                                      sm:col-span-2
+                                    "
+                                  >
+                                    {/* iterate data conversation users and display each users email */}
+                                    {data.users
+                                      .map((user) => user.email)
+                                      .join(", ")}
+                                  </dd>
+                                </div>
+                              )}
                               {/* this only going to display this if we are not in a group chat */}
                               {!data.isGroup && (
                                 <div>
                                   <dt
                                     className="
-                                                text-sm
-                                                font-medium
-                                                text-gray-500
-                                                sm:w-40
-                                                sm:flex-shrink-0
-                                            "
+                                      text-sm
+                                      font-medium
+                                    text-gray-500
+                                      sm:w-40
+                                      sm:flex-shrink-0
+                                    "
                                   >
                                     Email
                                   </dt>
@@ -259,11 +295,11 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                                   {/* dd - used to describe a term/name in a description list */}
                                   <dd
                                     className="
-                                                mt-1
-                                                text-sm
-                                                text-gray-900
-                                                sm:col-span-2
-                                            "
+                                      mt-1
+                                      text-sm
+                                    text-gray-900
+                                      sm:col-span-2                                      
+                                    "
                                   >
                                     {otherUser.email}
                                   </dd>
@@ -276,22 +312,22 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                                   <div>
                                     <dt
                                       className="
-                                                    text-sm
-                                                    font-medium
-                                                    text-gray-500
-                                                    sm:w-40
-                                                    sm:flex-shrink-0
-                                                "
+                                        text-sm
+                                        font-medium
+                                      text-gray-500
+                                        sm:w-40
+                                        sm:flex-shrink-0
+                                      "
                                     >
                                       Joined
                                     </dt>
                                     <dd
                                       className="
-                                                    mt-1
-                                                    text-sm
-                                                    text-gray-900
-                                                    sm:col-span-2
-                                                "
+                                        mt-1
+                                        text-sm
+                                      text-gray-900
+                                        sm:col-span-2
+                                      "
                                     >
                                       <time dateTime={joinedDate}>
                                         {joinedDate}

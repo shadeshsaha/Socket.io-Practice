@@ -39,27 +39,27 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
       <div
         className="
         bg-white
-        w-full
-        flex
-        border-b-[1px]
-        sm:px-4
-        py-3
-        px-4
-        lg:px-6
-        justify-between
-        items-center
-        shadow-sm
-    "
+          w-full
+          flex
+          border-b-[1px]
+          sm:px-4
+          py-3
+          px-4
+          lg:px-6
+          justify-between
+          items-center
+          shadow-sm
+        "
       >
         <div className="flex gap-3 items-center">
           <Link
             className="
-                lg:hidden
-                block
-                text-sky-500
-                hover:text-sky-600
-                transition
-                cursor-pointer
+              lg:hidden
+              block
+            text-sky-500
+            hover:text-sky-600
+              transition
+              cursor-pointer
             "
             href="/conversations"
           >
@@ -67,8 +67,10 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
           </Link>
 
           {conversation.isGroup ? (
+            // for group
             <AvatarGroup users={conversation.users} />
           ) : (
+            // for single user
             <Avatar user={otherUser} />
           )}
 
@@ -79,10 +81,10 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
             </div>
             <div
               className="
-              text-sm
-              font-light
+                text-sm
+                font-light
               text-neutral-500
-            "
+              "
             >
               {statusText}
             </div>
@@ -93,11 +95,11 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
           size={32}
           onClick={() => setDrawerOpen(true)}
           className="
-        text-sky-500 
-          cursor-pointer
+          text-sky-500 
+            cursor-pointer
           hover:text-sky-600
-          transition
-        "
+            transition
+          "
         />
       </div>
     </>

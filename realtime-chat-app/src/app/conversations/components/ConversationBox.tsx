@@ -81,17 +81,17 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
       onClick={handleClick}
       className={clsx(
         `
-    w-full
-    relative
-    flex
-    items-center
-    space-x-3
-    hover:bg-neutral-100
-    rounded-lg
-    transition
-    cursor-pointer
-    p-3
-    `,
+        w-full
+        relative
+        flex
+        items-center
+        space-x-3
+      hover:bg-neutral-100
+        rounded-lg
+        transition
+        cursor-pointer
+        p-3
+      `,
         selected ? "bg-neutral-100" : "bg-white"
       )}
     >
@@ -106,18 +106,18 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
         <div className="focus:outline-none">
           <div
             className="
-                    flex
-                    justify-between
-                    items-center
-                    mb-1
-                "
+              flex
+              justify-between
+              items-center
+              mb-1
+            "
           >
             <p
               className="
-      text-md
-      font-medium
-      text-gray-900
-"
+                text-md
+                font-medium
+              text-gray-900
+              "
             >
               {/* "data.name" is a group chat conversation name */}
               {data.name || otherUser.name}
@@ -127,10 +127,10 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
             {lastMessage?.createdAt && (
               <p
                 className="
-        text-xs
-        text-gray-400
-        font-light
-        "
+                  text-xs
+                text-gray-400
+                  font-light
+                "
               >
                 {format(new Date(lastMessage.createdAt), "p")}
               </p>

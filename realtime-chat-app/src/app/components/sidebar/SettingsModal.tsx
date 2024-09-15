@@ -67,11 +67,11 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
           <div className="border-b border-gray-900/10 pb-12">
             <h2
               className="
-                            text-base
-                            font-semibold
-                            leading-7
-                            text-gray-900
-                        "
+                text-base
+                font-semibold
+                leading-7
+              text-gray-900
+              "
             >
               Profile
             </h2>
@@ -86,7 +86,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                 flex
                 flex-col
                 gap-y-8
-            "
+              "
             >
               <Input
                 disabled={isLoading}

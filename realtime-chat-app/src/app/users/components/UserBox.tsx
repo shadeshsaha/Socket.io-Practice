@@ -41,25 +41,25 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
         rounded-lg
         transition
         cursor-pointer
-        "
+      "
     >
       <Avatar user={data} />
       <div className="min-w-0 flex-1">
         <div className="focus:outline-none">
           <div
             className="
-    flex
-    justify-between
-    items-center
-    mb-1
-    "
+              flex
+              justify-between
+              items-center
+              mb-1
+            "
           >
             <p
               className="
-        text-sm
-        font-medium
-        text-gray-900
-        "
+                text-sm
+                font-medium
+              text-gray-900
+              "
             >
               {data.name}
             </p>
