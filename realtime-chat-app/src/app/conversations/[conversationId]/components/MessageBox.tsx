@@ -6,6 +6,8 @@ import clsx from "clsx";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useState } from "react";
+import ImageModal from "./ImageModal";
 
 interface MessageBoxProps {
   data: FullMessageType;
@@ -15,6 +17,7 @@ interface MessageBoxProps {
 const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
   // Get session
   const session = useSession();
+  const [imageModalOpen, setImageModalOpen] = useState(false);
 
   // * Conditional variables which will use to recognize whether the message is our own message, or is it other users message.. should be displayed that this message has been seen by someone...
   // comparing the current session email with the email of the sender of the message.
@@ -61,9 +64,16 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
         </div>
 
         <div className={message}>
+          <ImageModal
+            src={data.image}
+            isOpen={imageModalOpen}
+            onClose={() => setImageModalOpen(false)}
+          />
+
           {/* render an image on chat/message */}
           {data.image ? (
             <Image
+              onClick={() => setImageModalOpen(true)}
               alt="Image"
               height="288"
               width="288"
