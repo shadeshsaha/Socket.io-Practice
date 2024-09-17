@@ -49,14 +49,31 @@ const Body: React.FC<BodyProps> = ({ initialMessages }) => {
       bottomRef?.current?.scrollIntoView();
     };
 
+    const updateMessageHandler = (newMessage: FullMessageType) => {
+      // We update its seen array. Ex: When I'm in a group chat and has seen my message so it will appear below this message.
+      setMessages((current) =>
+        current.map((currentMessage) => {
+          // if we find the exact message we are looking at, go ahead and update it or replace it with the new message.
+          if (currentMessage.id === newMessage.id) {
+            return newMessage;
+          }
+
+          return currentMessage;
+        })
+      );
+    };
+
     // bind pusherClient to expect "messages:new"-this key
     pusherClient.bind("messages:new", messageHandler);
+
+    pusherClient.bind("message:update", updateMessageHandler);
 
     // unbind and unsubscribe every time I unmount otherwise that might cause an overflow
     // this is an unmount method with the useEffect
     return () => {
       pusherClient.unsubscribe(conversationId);
       pusherClient.unbind("messages:new", messageHandler);
+      pusherClient.unbind("message:update", updateMessageHandler);
     };
   }, [conversationId]);
 

@@ -1,11 +1,14 @@
 "use client";
 
 import useConversation from "@/app/hooks/useConversation";
+import { pusherClient } from "@/app/libs/pusher";
 import { FullConversationType } from "@/app/types";
 import { User } from "@prisma/client";
 import clsx from "clsx";
+import { find } from "lodash";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MdOutlineGroupAdd } from "react-icons/md";
 import ConversationBox from "./ConversationBox";
 import GroupChatModal from "./GroupChatModal";
@@ -20,11 +23,68 @@ const ConversationList: React.FC<ConversationListProps> = ({
   initialItems,
   users,
 }) => {
+  const session = useSession();
   const [items, setItems] = useState(initialItems);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const router = useRouter();
   const { conversationId, isOpen } = useConversation();
+
+  // Create a Pusher key
+  const pusherKey = useMemo(() => {
+    return session.data?.user?.email;
+  }, [session.data?.user?.email]);
+
+  useEffect(() => {
+    // check if we have the Pusher key, means the session has not loaded yet.
+    if (!pusherKey) {
+      return; // return and break this useEffect
+    }
+
+    // pusherKey is going to our email because in conversations that is where we are going to trigger an update for each user's conversation list.
+    pusherClient.subscribe(pusherKey);
+
+    // Append new conversation to the list of items
+    const newHandler = (conversation: FullConversationType) => {
+      setItems((current) => {
+        // compare if there is an existing conversation that we are trying to add. Ensure that there are no duplicates.
+        if (find(current, { id: conversation.id })) {
+          return current;
+        }
+
+        return [conversation, ...current];
+      });
+    };
+
+    const updateHandler = (conversation: FullConversationType) => {
+      setItems((current) =>
+        current.map((currentConversation) => {
+          // Comparison to find the one to update.
+          if (currentConversation.id === conversation.id) {
+            return {
+              ...currentConversation,
+              messages: conversation.messages,
+            };
+          }
+
+          return currentConversation;
+        })
+      );
+
+      // "conversation": is the new conversation that came from the Pusher
+      // "currentConversation" is from the "current" list from current array
+    };
+
+    pusherClient.bind("conversation:new", newHandler);
+    pusherClient.bind("conversation:update", updateHandler);
+
+    // return/unmount function
+    return () => {
+      pusherClient.unsubscribe(pusherKey);
+      pusherClient.unbind("conversation:new", newHandler);
+      pusherClient.unbind("conversation:update", updateHandler);
+    };
+  }, [pusherKey]);
 
   return (
     <>

@@ -1,5 +1,6 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import prisma from "@/app/libs/prismadb";
+import { pusherServer } from "@/app/libs/pusher";
 import { NextResponse } from "next/server";
 
 // API route to create our conversations
@@ -24,7 +25,7 @@ export async function POST(request: Request) {
       return new NextResponse("Invalid Data", { status: 400 });
     }
 
-    // Create a group chat if this group is present
+    // Group Chat Conversation: Create a group chat if this group is present
     if (isGroup) {
       // Create a new conversation
       const newConversation = await prisma.conversation.create({
@@ -47,6 +48,13 @@ export async function POST(request: Request) {
         include: {
           users: true,
         },
+      });
+
+      // Update sidebar of conversation [For Group Chat]
+      newConversation.users.forEach((user) => {
+        if (user.email) {
+          pusherServer.trigger(user.email, "conversation:new", newConversation);
+        }
       });
 
       return NextResponse.json(newConversation);
@@ -78,7 +86,7 @@ export async function POST(request: Request) {
       return NextResponse.json(singleConversation);
     }
 
-    // Handle creating a new conversation if this query does not exist
+    // Individual one-on-one Conversation: Create a new conversation if this query does not exist
     const newConversation = await prisma.conversation.create({
       data: {
         users: {
@@ -98,6 +106,13 @@ export async function POST(request: Request) {
       include: {
         users: true,
       },
+    });
+
+    // Update sidebar of conversation [For Individual one-on-one Conversation Chat]
+    newConversation.users.map((user) => {
+      if (user.email) {
+        pusherServer.trigger(user.email, "conversation:new", newConversation);
+      }
     });
 
     return NextResponse.json(newConversation);
