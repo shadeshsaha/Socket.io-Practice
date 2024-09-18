@@ -75,14 +75,26 @@ const ConversationList: React.FC<ConversationListProps> = ({
       // "currentConversation" is from the "current" list from current array
     };
 
+    const removeHandler = (conversation: FullConversationType) => {
+      setItems((current) => {
+        return [
+          ...current.filter(
+            (singleConversation) => singleConversation.id !== conversation.id
+          ),
+        ];
+      });
+    };
+
     pusherClient.bind("conversation:new", newHandler);
     pusherClient.bind("conversation:update", updateHandler);
+    pusherClient.bind("conversation:remove", removeHandler);
 
     // return/unmount function
     return () => {
       pusherClient.unsubscribe(pusherKey);
       pusherClient.unbind("conversation:new", newHandler);
       pusherClient.unbind("conversation:update", updateHandler);
+      pusherClient.unbind("conversation:remove", removeHandler);
     };
   }, [pusherKey]);
 
