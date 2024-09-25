@@ -2,12 +2,18 @@
 
 import { User } from "@prisma/client";
 import Image from "next/image";
+import useActiveList from "../hooks/useActiveList";
 
 interface AvatarProps {
   user?: User;
 }
 
 const Avatar: React.FC<AvatarProps> = ({ user }) => {
+  const { members } = useActiveList();
+
+  // Confirming that this user email is in the list of members
+  const isActive = members.indexOf(user?.email!) !== -1;
+
   return (
     <div className="relative">
       <div
@@ -30,8 +36,10 @@ const Avatar: React.FC<AvatarProps> = ({ user }) => {
         />
       </div>
 
-      <span
-        className="
+      {/* its only going to show if the user is in the list of active users */}
+      {isActive && (
+        <span
+          className="
           absolute
           block
           rounded-full
@@ -45,7 +53,8 @@ const Avatar: React.FC<AvatarProps> = ({ user }) => {
           md:h-3
           md:w-3
         "
-      />
+        />
+      )}
     </div>
   );
 };
