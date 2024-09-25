@@ -1,7 +1,3 @@
-Here’s a clean and well-structured README file based on your `package.json` for the **Realtime Chat App**:
-
----
-
 # Realtime Chat App
 
 This project is a **Realtime Chat Application** built using **Next.js**. It supports real-time messaging between users, along with features like authentication, file uploads, and dynamic chat UI. The app leverages technologies like **Next.js**, **Prisma**, **Pusher**, **React**, and **Tailwind CSS** for an optimized and responsive experience.
@@ -42,6 +38,12 @@ This project is a **Realtime Chat Application** built using **Next.js**. It supp
   - **Axios**: For handling API requests.
   - **Lodash**: Utility functions for simplifying JavaScript code.
   - **Zustand**: State management library for simplified global state handling.
+
+## Live Link
+
+```bash
+https://realtime-chat-app-eight-pi.vercel.app/
+```
 
 ## Installation
 
