@@ -3,9 +3,9 @@
   first we have to create a presence channel where we are going to search for active users in order to know whether we assigned an active status or an offline status.
 */
 
-// import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { pusherServer } from "@/app/libs/pusher";
-import { authOptions } from "@/app/utils/authOptions";
+// import { authOptions } from "@/app/utils/authOptions";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 
