@@ -1,0 +1,78 @@
+"use client";
+
+import Avatar from "@/app/components/Avatar";
+import LoadingModal from "@/app/components/LoadingModal";
+import { User } from "@prisma/client";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
+
+interface UserBoxProps {
+  data: User;
+}
+
+const UserBox: React.FC<UserBoxProps> = ({ data }) => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleClick = useCallback(() => {
+    setIsLoading(true);
+
+    // Initialize the axios postcode to a route which we do not have at the moment, it's going to be "api/conversations" and in the body element we are going to send the user ID that we are starting the conversation with.
+    axios
+      .post("/api/conversations", { userId: data.id })
+      .then((data) => {
+        router.push(`/conversations/${data.data.id}`);
+      })
+      .finally(() => setIsLoading(false));
+  }, [data, router]);
+
+  return (
+    <>
+      {isLoading && <LoadingModal />}
+
+      <div
+        onClick={handleClick}
+        className="
+          w-full
+          relative
+          flex
+          items-center
+          space-x-3
+          bg-white
+          p-3
+          hover:bg-neutral-100
+          rounded-lg
+          transition
+          cursor-pointer
+        "
+      >
+        <Avatar user={data} />
+        <div className="min-w-0 flex-1">
+          <div className="focus:outline-none">
+            <div
+              className="
+                flex
+                justify-between
+                items-center
+                mb-1
+              "
+            >
+              <p
+                className="
+                  text-sm
+                  font-medium
+                text-gray-900
+                "
+              >
+                {data.name}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default UserBox;
